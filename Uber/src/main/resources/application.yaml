@@ -1,0 +1,46 @@
+server:
+  servlet:
+    register-default-servlet: true
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  thymeleaf:
+    prefix: classpath:/webapp/templates/
+    suffix: .html
+    cache: false
+  web:
+    resources:
+      static-locations: classpath:/webapp/
+  datasource:
+    username: root
+    password: "az98198506"
+    url: jdbc:mysql://localhost:3306/mydb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: will582145@gmail.com
+    password: hlwlxuyotejzozbd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
+
+
+
+

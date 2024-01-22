@@ -1,0 +1,102 @@
+#directories {
+    width: 200px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 64px;
+}
+
+#directories a {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 30px;
+}
+
+#directories a:hover {
+    background-color: #ddd;
+}
+
+#content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+h2,h4{
+    font-weight: bolder;
+}
+
+
+.img-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.round-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.info{
+    text-decoration: none;
+    color: black;
+}
+
+.colValue{
+    margin-left: 3px;
+}
+
+hr {
+    border: 1px solid #ccc; 
+    margin: 10px 0;
+    width: 60%;
+}
+
+.nextIcon{
+    position: absolute;
+    right: 750px;
+}
+
+.loginWhatToEat{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.password-show {
+    -webkit-text-security: disc; 
+}

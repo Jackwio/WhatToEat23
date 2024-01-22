@@ -1,0 +1,9 @@
+.emailInput,
+.passwordInput {
+    width: 350px;
+    height: 50px;
+}
+
+.loginContainer {
+    margin-top: 200px;
+}

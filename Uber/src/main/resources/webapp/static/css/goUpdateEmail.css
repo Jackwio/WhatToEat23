@@ -1,0 +1,38 @@
+input {
+    padding: 8px;
+    width: 350px;
+    color: #333;
+    margin-left: 150px;
+}
+
+.c{
+    /* border: 1px solid; */
+    margin-left: 600px; 
+    margin-top: 200px;
+}
+
+p{
+    margin-top: 20px;
+    margin-bottom: 60px;
+    margin-left: 150px;
+}
+
+h2{
+    font-weight: bold;
+    margin-left: 150px;
+}
+
+.btnUpdate{
+    margin-top: 60px;
+    margin-left: 150px;
+    width: 350px;
+    height: 50px;
+}
+
+#emailInput{
+    margin-top: 5px;
+    background-color: #dcdcdc;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: black;
+}

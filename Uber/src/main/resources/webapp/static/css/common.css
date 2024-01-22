@@ -1,0 +1,83 @@
+/* 上面顯示whatToEat */
+.titleBlock {
+    background-color: black;
+    height: 64px;
+}
+
+.ap {
+    padding: 0px 64px;
+    /* 設定div裡元素置中 */
+    display: flex;
+    align-items: center;
+}
+
+.emailInput{
+    width: 350px;
+    height: 50px;
+}
+
+.whatToEatHref{
+    text-decoration: none;
+    color:white;
+    font-size: 25px;
+}
+
+/* 使用者小頭像 */
+.image-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+hr{
+    margin-top: 20px;
+    color: gray;
+}
+
+.name{
+    margin-top: 25px;
+    color: black;
+}
+
+.accountManage{
+
+    text-decoration: none;
+    color: green;
+}
+
+.additional-content {
+    position: absolute;
+    margin-left: 85px;
+    display: inline-block;
+}
+
+.additional-content1{
+    position: relative;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.information{
+    text-decoration: none;
+    color: black;
+}
+
+.icon{
+    color: black;
+    font-size: 20px;
+    margin-left: 12px;
+}
+
+.iconText{
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.logOut{
+    color: gray;
+    margin-left: 10px;
+}

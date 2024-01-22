@@ -1,0 +1,21 @@
+.registerContainer {
+    margin-top: 170px;
+}
+.emailInputAsk {
+    margin-top: 15px;
+}
+.remindInput {
+    color: red;
+}
+
+.not-centered {
+    align-self: flex-start;
+    margin-top: 10px;
+    margin-left: 678px;
+}
+
+.continueBtn {
+    margin-top: 10px;
+    width: 350px;
+    height: 50px;
+}
