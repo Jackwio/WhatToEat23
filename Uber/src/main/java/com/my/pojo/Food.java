@@ -2,6 +2,9 @@ package com.my.pojo;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Streamable;
 
 import java.util.Objects;
 
@@ -11,7 +14,7 @@ import java.util.Objects;
 @Table(name = "tbl_food")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Food {
+public class Food{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +46,7 @@ public class Food {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return Objects.equals(foodId, food.foodId);
+        return foodId == food.getFoodId();
     }
 
 }

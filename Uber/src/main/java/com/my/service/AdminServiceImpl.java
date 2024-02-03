@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -29,25 +30,30 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public void loginAdmin(String adminEmail, String password, HttpSession session) {
+    public Admin loginAdmin(Map<String, String> adminEmailPasswordMap, HttpSession session) {
+        String adminEmail = adminEmailPasswordMap.get("adminEmail");
+        String password = adminEmailPasswordMap.get("password");
         Admin admin = adminRepository.findById(adminEmail).get();
         AdminPassword adminPassword = adminPasswordRepository.findByAdminEmail(admin.getAdminEmail());
-        if (adminPassword.equals(password)) {
+        if (adminPassword.getPassword().equals(password)) {
             session.setAttribute("currentAdmin", admin);
+        }else{
+            throw new RuntimeException();
         }
+        return admin;
     }
 
     @Override
-    public Admin registerAdmin(String adminEmail, HttpSession session, String password) {
+    public Admin registerAdmin(HttpSession session, String adminEmail, String password) {
         Admin admin;
         try {
             admin = adminRepository.findById(adminEmail).get();
-            return admin;
+            return null;
         } catch (Exception e) {
             admin = new Admin(adminEmail);
             adminRepository.save(admin);
             adminPasswordRepository.save(new AdminPassword(admin, password));
-            return null;
+            return admin;
         }
     }
 
@@ -87,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteMember(String memEmail) {
-        memberRepository.deleteById(memEmail);
+//        memberRepository.deleteById(memEmail);
         memberPasswordRepository.deleteById(memEmail);
     }
 

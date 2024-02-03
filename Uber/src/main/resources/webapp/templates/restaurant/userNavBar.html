@@ -221,19 +221,19 @@
                     <tr>
                       <td colspan="4" th:if="${session.currentUser!=null}"
                           style="vertical-align: middle; text-align: center;padding-left:10px"><a
-                              th:href="@{/goToProfile}">管理帳戶</a>
+                              th:href="@{/member}">管理帳戶</a>
                       </td>
                     </tr>
                   </table>
                 </h4>
               </div>
               <div class="modal-body">
-                <div style="margin-bottom: 20px;" th:if="${session.currentUser!=null}"><a th:href="@{/getMemberOrder}"
+                <div style="margin-bottom: 20px;" th:if="${session.currentUser!=null}"><a th:href="@{/member/orders}"
                                                                                           style="font-size: 25px;">訂單</a>
                 </div>
                 <div style="margin-bottom: 20px;" th:if="${session.currentUser!=null}"><a th:href="@{/showCollect}" style="font-size: 25px;">收藏</a></div>
                 <div th:if="${session.currentUser!=null}" style="margin-bottom: 20px;"><a
-                        th:href="@{/logOut}"
+                        th:href="@{/member/logOut}"
                         style="font-size: 25px;">登出</a>
                 </div>
               </div>
@@ -242,7 +242,7 @@
         </div>
       </li>
     </ul>
-    <form class="d-flex col-md-3" role=" search" method="get" th:action="@{/lookRestaurant}">
+    <form class="d-flex col-md-3" role=" search" method="get" th:action="@{/restaurant/}">
       <input type="hidden" name="action" value="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
       <button class="btn btn-outline-success" type="submit" style="color: rgb(0, 0, 0);">Search</button>
@@ -335,7 +335,7 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
   function changePage(pageNumber) {
-    window.location.href = 'http://localhost:8080/lookRestaurant?pageNumber=' + pageNumber
+    window.location.href = 'http://localhost:8080/restaurant/?pageNumber=' + pageNumber
   }
 
   function editItem(change, mId, event) {
@@ -357,7 +357,7 @@
   }
 
   function change(value) {
-    window.location.href = 'http://localhost:8080/lookRestaurant?foodClass=' + value
+    window.location.href = 'http://localhost:8080/restaurant/?foodClass=' + value
   }
 
   function changeMoney(value) {
@@ -369,14 +369,14 @@
     } else if (value === '$$$') {
       price = 3
     }
-    window.location.href = 'http://localhost:8080/lookRestaurant?menuMoney=' + price
+    window.location.href = 'http://localhost:8080/restaurant/?menuMoney=' + price
   }
 
   function changeType(value) {
     if (value === '飲食限制') {
       value = ''
     }
-    window.location.href = 'http://localhost:8080/lookRestaurant?menuConstraint=' + value
+    window.location.href = 'http://localhost:8080/restaurant/?menuConstraint=' + value
   }
 
   function deleteItem(foodId) {
@@ -389,7 +389,7 @@
   }
 
   function useTurntable() {
-    window.location.href = 'http://localhost:8080/useTurntable'
+    window.location.href = 'http://localhost:8080/restaurant/turntable'
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -429,7 +429,7 @@
   });
 
   function goToMain() {
-    window.location.href = 'http://localhost:8080/lookRestaurant'
+    window.location.href = 'http://localhost:8080/restaurant/'
   }
 
   function cancelComment(button){

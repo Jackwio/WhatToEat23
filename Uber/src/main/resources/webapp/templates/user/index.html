@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>index頁面</title>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -37,11 +41,13 @@
             <div class="modal-dialog modal-fullscreen model-width">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <button class="btn btn-dark btn-weight" onclick="register()">註冊</button>
-                        <button class="btn btn-secondary btn-weight" onclick="login()">登入</button>
+                        <button class="btn btn-dark btn-weight" onclick="register()"
+                                th:if="${session.currentUser != null}">註冊</button>
+                        <button class="btn btn-secondary btn-weight" onclick="login()"
+                                th:if="${session.currentUser != null}">登入</button>
                         <a href="#" class="link" onclick="addOwner()">建立企業帳戶</a><br />
                         <a href="#" class="link2" onclick="addRest()">新增您的餐廳</a>
-                        <a href="#" class="link" onclick="adminLogin()">管理員登入</a>
+                        <a th:href="@{/goLoginAdmin}" class="link" onclick="adminLogin()">管理員登入</a>
                     </div>
                 </div>
             </div>
@@ -71,13 +77,13 @@
         <div class="col-md-5">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt iconPos"></i></span>
-                <input id="posInput" type="text" placeholder="輸入外送地址" class="site-input">
+                <input id="siteInput" type="text" placeholder="輸入外送地址" class="site-input">
             </div>
         </div>
 
         <div class="custom-select">
-            <div class="select-button" onclick="toggleOptions()">
-                <i class="bi bi-stopwatch-fill"></i> 立即運送<i class="bi bi-caret-down-fill down"></i>
+            <div id="time" class="select-button" onclick="toggleOptions()">
+                <i class="bi bi-stopwatch-fill"></i>立即運送<i class="bi bi-caret-down-fill down"></i>
             </div>
             <div class="custom-options" id="customOptions" onclick="handleOptionSelect(event)">
                 <span data-value="1"><i class="bi bi-stopwatch-fill"></i> 立即運送</span>
@@ -93,16 +99,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body timeModal">
-                        <select class="form-select selectSize timeOption">
-                            <option selected value="1"><span style="line-height: 20;"><i class="bi bi-stopwatch-fill"></i>立即運送</span></option>
-                            <option value="2"><span style="line-height: 20;"><i class="bi bi-calendar3-week-fill" style="line-height: 20;"></i>預約運送</span></option>
-                        </select>
-                        <select class="form-select selectSize timeOption">
-                            <option selected value="1"><span style="line-height: 20;"><i class="bi bi-stopwatch-fill"></i>立即運送</span></option>
-                            <option value="2"><span style="line-height: 20;"><i class="bi bi-calendar3-week-fill" style="line-height: 20;"></i>預約運送</span></option>
-                        </select>
-                        <button class="btn btn-dark timeSetBtn" data-bs-dismiss="modal">安排時間</button>
-                        <button class="btn btn-secondary timeSetBtn" data-bs-dismiss="modal">立即外送</button>
+                        <select id="chooseDate" class="form-select selectSize timeOption"></select>
+                        <select id="chooseTime" class="form-select selectSize timeOption"></select>
+                        <button class="btn btn-dark timeSetBtn" data-bs-dismiss="modal" onclick="assignTime()">安排時間</button>
+                        <button class="btn timeSetBtn out" data-bs-dismiss="modal">立即外送</button>
                     </div>
                 </div>
             </div>

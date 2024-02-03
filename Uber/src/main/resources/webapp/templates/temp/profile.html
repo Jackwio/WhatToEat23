@@ -87,7 +87,7 @@
                                         <tr>
                                             <td colspan="4" th:if="${session.currentUser!=null}"
                                                 style="vertical-align: middle; text-align: center;padding-left:10px"><a
-                                                    th:href="@{/goToProfile}">管理帳戶</a>
+                                                    th:href="@{/member/}">管理帳戶</a>
                                             </td>
                                         </tr>
                                     </table>
@@ -108,7 +108,7 @@
                 </div>
             </li>
         </ul>
-        <form class="d-flex col-md-3" role=" search" method="get" th:action="@{/lookRestaurant}">
+        <form class="d-flex col-md-3" role=" search" method="get" th:action="@{/restaurant/}">
             <input type="hidden" name="action" value="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
             <button class="btn btn-outline-success" type="submit" style="color: rgb(0, 0, 0);">Search</button>
@@ -292,7 +292,7 @@
             })
             .then(data => {
                 alert(data)
-                window.location.href = 'http://localhost:8080/goToProfile'
+                window.location.href = 'http://localhost:8080/member'
             })
             .catch(error => {
                 console.error('Error:', error);

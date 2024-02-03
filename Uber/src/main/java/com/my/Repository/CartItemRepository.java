@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface CartItemRepository extends CrudRepository<CartItem,Integer> {
+public interface CartItemRepository extends BaseRepository<CartItem,Integer> {
 
     List<CartItem> findALLByCart_CartId(Integer cartId);
     CartItem findByFood_FoodIdAndCart_CartId(Integer foodId,Integer cartId);
 
     @Transactional
     @Modifying
-    void deleteAllByCart_CartId(Integer CartId);
+    void deleteAllByCart_CartIdAndFood_FoodId(Integer CartId,Integer foodId);
 
 //    @Modifying
 //    @Transactional

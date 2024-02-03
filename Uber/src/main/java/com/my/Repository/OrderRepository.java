@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends CrudRepository<Order,Long> {
+public interface OrderRepository extends BaseRepository<Order,Long> {
     Order findByOrderDateTimeOrderByOrderDateTimeDesc(LocalDateTime localDateTime);
     List<Order> findAllByMember_MemEmail(String memEmail);
     List<Order> findAllByRestaurant_RestId(Integer restId);

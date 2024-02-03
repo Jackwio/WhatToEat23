@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class AdminPassword implements Serializable {
 
     @Id
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name="adminEmail")
     private Admin adminEmail;
     @Id

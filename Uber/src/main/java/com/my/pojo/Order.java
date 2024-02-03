@@ -32,9 +32,7 @@ public class Order {
     private RestOrderState restAccepted;
     @Enumerated(EnumType.ORDINAL)
     private OrderState orderState;
-
-//    @JsonIgnore
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "orderId",cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private List<OrderItem> orderItems;
 
     public Order(RestOrderState restAccepted) {

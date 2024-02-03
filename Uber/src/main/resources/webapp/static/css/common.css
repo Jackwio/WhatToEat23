@@ -17,7 +17,6 @@
 }
 
 .whatToEatHref{
-    text-decoration: none;
     color:white;
     font-size: 25px;
 }
@@ -39,11 +38,11 @@ hr{
 .name{
     margin-top: 25px;
     color: black;
+    font-size: 16px;
 }
 
 .accountManage{
-
-    text-decoration: none;
+    font-size: 14px;
     color: green;
 }
 
@@ -61,10 +60,10 @@ hr{
     margin-bottom: 20px;
 }
 
-.information{
-    text-decoration: none;
-    color: black;
-}
+/*.information{*/
+/*    text-decoration: none;*/
+/*    color: black;*/
+/*}*/
 
 .icon{
     color: black;
@@ -74,10 +73,213 @@ hr{
 
 .iconText{
     margin-left: 20px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .logOut{
     color: gray;
     margin-left: 10px;
+    font-size: 16px;
+}
+
+
+
+.searchGroup{
+    margin-left: -400px;
+}
+
+.keywordInput{
+    border-radius: 40px;
+    width: 400px;
+    height: 50px;
+    background-color: #EEEEEE;
+}
+
+.keywordInput:focus, .keywordInput.clicked {
+    border: 1px solid #000; /* 聚焦或点击时的边框颜色为黑色 */
+    background-color: #EEEEEE;
+}
+
+.searchBtn{
+    border-radius: 70px;
+}
+
+/* 購物車 */
+.cart-btn{
+    border-radius: 50px;
+    width: 140px;
+    height: 50px;
+    margin-left: 10px;
+}
+.num{
+    margin-left: 10px;
+}
+.product{
+    margin-left: 5px;
+}
+.cart-modal-width{
+    width: 450px;
+    margin-left: 1469px;
+}
+
+.pay-add-btn{
+    width: 400px;
+    height: 55px;
+}
+.btn-gray{
+    background-color:#f5f5f5;
+    border-radius: 10px;
+    border-color: transparent;
+}
+.cart-header{
+    margin-left: 350px;
+}
+.text-color{
+    color: black;
+}
+.cart-body h3{
+    font-weight: bold;
+}
+.buy-num{
+    margin-top: 30px;
+}
+.buy-total{
+    margin-left: 226px;
+}
+.buy-money{
+    font-weight: bold;
+}
+
+.buy-total2{
+    font-weight: bold;
+    font-size: 20px;
+}
+.buy-money2{
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 300px;
+}
+.product-name{
+    text-align: left;
+    padding-left: 0;
+}
+.product-img{
+    text-align: right;
+}
+.product-img img{
+    height: 60px;
+    width: 60px;
+}
+.product-price{
+    text-align: right;
+    vertical-align: middle;
+    font-size: 20px;
+}
+.product-num{
+    text-align: left;
+    padding-left: 0;
+}
+.add-cart-text{
+    font-size: 20px;
+    font-weight: 700;
+}
+.add-cart-text1{
+    font-size: 16px;
+}
+.start-choose{
+    width: fit-content;
+    height: 36px;
+    color: #FFFFFF;
+    border-radius: 500px;
+    font-weight: 500;
+    font-size: 14px;
+}
+.search-cart{
+    margin-left: -500px;
+}
+
+
+/*個人資訊modal*/
+.iconSize {
+    font-size: 25px;
+}
+
+.systemName {
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: -1900px;
+    /*margin-right: 1000px;*/
+}
+
+.circle-button {
+    height: 50px;
+    width: 80px;
+    border-radius: 30px;
+    background-color: black;
+    color: white;
+    font-weight: 400;
+    margin-right: 10px;
+    /* 调整右边外边距 */
+}
+
+.circle-button {
+    height: 50px;
+    width: 80px;
+    border-radius: 30px;
+}
+
+.login-register-btn{
+    margin-left: -220px;
+}
+
+.login-button {
+    color: black;
+    background-color: white;
+}
+
+.register-button {
+    color: white;
+    background-color: black;
+}
+
+.login-button:hover {
+    color: black;
+    background-color: white;
+}
+
+.register-button:hover {
+    background-color: gray;
+}
+
+.model-width {
+    width: 300px;
+}
+
+.btn-weight {
+    width: 250px;
+    height: 50px;
+    margin-top: 5px;
+    /* 设置链接底部的间隔 */
+}
+
+.link {
+    margin-top: 30px;
+    display: block;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.link2 {
+    display: block;
+    font-size: 14px;
+    margin-left: 10px;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+/*餐廳收藏愛心*/
+.heart-red{
+    color: red;
 }

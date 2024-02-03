@@ -2,140 +2,66 @@
     background-image: url('../images/indexImage/uberIndex.webp');
     background-size: 100%;
 }
-
 .custom-navbar {
     background-image: url('../images/indexImage/uberIndex.webp');
     background-size: 100%;
     color: white;
-    /* 设置文字颜色，确保在背景上可见 */
     padding: 15px;
-    /* 设置上下左右的内边距，确保内容不被遮挡 */
     display: flex;
     align-items: center;
-    /* 垂直居中 */
 }
-
 .iconSize {
     font-size: 25px;
 }
-
 .systemName {
     margin-right: 1100px;
 }
-
-.circle-button {
-    height: 50px;
-    width: 80px;
-    border-radius: 30px;
-    background-color: black;
-    color: white;
-    font-weight: 400;
-    margin-right: 10px;
-    /* 调整右边外边距 */
-}
-
-.circle-button {
-    height: 50px;
-    width: 80px;
-    border-radius: 30px;
-}
-
-.login-button {
-    color: black;
-    background-color: white;
-}
-
-.register-button {
-    color: white;
-    background-color: black;
-}
-
-.login-button:hover {
-    color: black;
-    background-color: white;
-}
-
-.register-button:hover {
-    background-color: gray;
-}
-
 .model-width {
     width: 300px;
 }
-
 .btn-weight {
     width: 250px;
     height: 50px;
     margin-top: 5px;
-    /* 设置链接底部的间隔 */
 }
-
-.link {
-    margin-top: 30px;
-    display: block;
-    text-decoration: none;
-    color: black;
-    font-size: 30px;
-}
-
-.link2 {
-    display: block;
-    text-decoration: none;
-    color: black;
-    font-size: 30px;
-}
-
 .indexContainer {
     margin-top: 200px;
     margin-left: 20px;
 }
-
 .timeSiteChoose {
     margin-top: 35px;
 }
-
 .site-input {
     width: 500px;
     height: 50px;
 }
-
 .iconPos {
     color: black;
 }
-
 .selectSize {
     width: 150px;
     height: 50px;
 }
-
 .findFood {
     width: 100px;
     height: 50px;
 }
-
 .custom-select {
     position: relative;
     display: inline-block;
-    width: 180px;
-    /* 设置下拉框的宽度 */
+    width: max-content;
 }
-
-/* 下拉框按钮样式 */
 .select-button {
     border: 1px solid #ced4da;
     background-color: #fff;
     padding: 0.375rem 0.75rem;
     border-radius: 0.25rem;
     line-height: 40px;
-    /* 设置按钮高度，根据需要调整 */
     cursor: pointer;
-    /*設置向下圖標不會動*/
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-/* 下拉框选项样式 */
 .custom-options {
     display: none;
     position: absolute;
@@ -143,39 +69,41 @@
     border: 1px solid #ced4da;
     border-top: none;
     border-radius: 0 0 0.25rem 0.25rem;
-    width: 156px;
+    max-width: 100%;
     z-index: 1;
 }
-
-/* 下拉框选项的每一项样式 */
 .custom-options span {
     display: block;
     padding: 0.375rem 0.75rem;
     line-height: 40px;
-    /* 设置选项高度，根据需要调整 */
+    width: 100%;
     cursor: pointer;
 }
-
 .down {
     margin-left: 30px;
 }
-
 .timeOption{
     margin-top: 10px;
     width: 350px;
     height: 40px;
-    background-color: gray;
+    background-color: #dcdcdc;
     color: black;
 }
-
+.timeOption option{
+    background-color: white;
+}
 .timeSetBtn{
     width: 350px;
     height: 40px;
     margin-top: 10px;
 }
-
 .timeModal{
-    /* 同時使得select和button置中 */
     display: grid;
     place-items: center;
+}
+.out{
+    background-color: rgb(226, 226, 226);
+}
+.out:hover{
+    background-color: #dcdcdc;
 }

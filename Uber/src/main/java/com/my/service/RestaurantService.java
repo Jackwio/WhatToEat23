@@ -8,17 +8,14 @@ import java.util.List;
 
 public interface RestaurantService{
 
-    void lookRestaurant(HttpSession session, Integer pageNumber, String keyword, String action, String position, Integer time, String foodType, String foodClass, Integer foodMoney, String foodConstraint);
-
-//    List<Restaurant> selectRestaurantByTime(List<Restaurant> restaurants, Integer time );
+    void lookRestaurant(HttpSession session, Integer pageNumber, String keyword, String action, Integer time, String foodClass,Restaurant restaurant);
+    List<Restaurant> selectRestaurantByTime(HttpSession session,List<Restaurant> restaurants, Integer time );
     List<Restaurant> selectRestaurantByKeyword(HttpSession session,List<Restaurant> restaurants, String keyword);
-//
     List<Restaurant> selectRestaurantByPosition(HttpSession session,List<Restaurant> restaurants, String position);
     void selectRestaurantByFoodType(HttpSession session,List<Restaurant> restaurants, String foodType);
     void selectRestaurantByFoodMoney(HttpSession session,List<Restaurant> restaurants, Integer foodMoney);
     void selectRestaurantByFoodConstraint(HttpSession session,List<Restaurant> restaurants, String foodConstraint);
 
-//    Long getRestaurantNumber(HttpSession session, List<Restaurant> restaurants);
     void useTurntable(HttpSession session);
     Integer getTurnTableResult(Integer target, HttpSession session);
 

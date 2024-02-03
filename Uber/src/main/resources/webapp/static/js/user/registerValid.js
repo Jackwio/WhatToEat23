@@ -1,6 +1,5 @@
-
-$(document).ready(function() {
-    $('.codeInput').on('input', function() {
+$(document).ready(function () {
+    $('.codeInput').on('input', function () {
         var currentValue = $(this).val();
 
         // 使用正則表達式檢查是否為數字
@@ -15,7 +14,7 @@ $(document).ready(function() {
                     nextInput.focus();
                 }
             }
-         }
+        }
     });
 });
 
@@ -26,23 +25,25 @@ function validCode() {
         inputs[1].value,
         inputs[2].value,
         inputs[3].value
-    ];
+    ]
     var code = inputValues.join("")
 
-    fetch('/validCode?code='+code)
+    fetch('/member/VerificationCode/' + code, {
+        method: "POST"
+    })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok')
             }
-            return response.text();
+            return response.json();
         })
         .then(data => {
-            alert(data)
-            if(data === "驗證成功"){
-                window.location.href = 'http://localhost:8080/goPhoneNumInput';
+            alert(data.message)
+            if (data.message.indexOf("成功") !== -1) {
+                window.location.href = 'http://localhost:8080/goPhoneNumInput'
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+
         });
 }

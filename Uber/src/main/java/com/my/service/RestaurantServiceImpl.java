@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,19 +28,20 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RatingsRepository ratingsRepository;
 
     @Override
-    public void lookRestaurant(HttpSession session, Integer pageNumber, String keyword
-            , String action, String position, Integer time, String foodType, String foodClass
-            , Integer foodMoney, String foodConstraint) {
-
-        Member currentUser;
+    public void lookRestaurant(HttpSession session, Integer pageNumber, String keyword, String action,
+                               Integer time, String foodClass, Restaurant restaurant) {
+        String position = restaurant.getRestLocation();
+        String foodType = restaurant.getRestFoodType();
+        Integer foodMoney = restaurant.getRestPrice();
+        String foodConstraint = restaurant.getRestDietConstraint();
         //判斷是訪客還是會員
         if (session.getAttribute("currentUser") == null) {
             //在本地紀錄訪客資訊
-            Member.tempUser = new Member();
-            Cart.tempCart = new HashMap<>();
-            session.setAttribute("cartItems", new ArrayList<CartItem>());
-        } else {
-            currentUser = (Member) session.getAttribute("currentUser");
+            Cart.tempCart = new Cart();
+            ArrayList<CartItem> cartItems = new ArrayList<>();
+            Cart.tempCart.setCartItemTotal(0);
+            Cart.tempCart.setCartItems(cartItems);
+            session.setAttribute("tempCart", Cart.tempCart);
         }
         //查詢所有餐廳
         List<Restaurant> restaurants = restaurantRepository.findAll();
@@ -55,23 +58,14 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
         }
         //位置篩選
-        if ( (position != null || session.getAttribute("position") != null) && !"".equals(position)) {
+        if ((position != null || session.getAttribute("position") != null) && !"".equals(position)) {
             restaurants = selectRestaurantByPosition(session, restaurants, position);
         }
 
-
-//        if(time!=null){
-//            if(time==-1){
-//                LocalDateTime now = LocalDateTime.now();
-//                time = now.getHour();
-//                session.setAttribute("time", time);
-//            }
-//            session.setAttribute("time", time);
-//        }else{
-//            time = (Integer) session.getAttribute("time");
-//        }
-
-//        restaurants = selectRestaurantByTime(restaurants, time);
+        //時間搜尋
+        if (time != null || session.getAttribute("time") != null) {
+            restaurants = selectRestaurantByTime(session, restaurants, time);
+        }
 
         //關鍵字搜尋
         if (keyword != null || session.getAttribute("keyword") != null) {
@@ -99,8 +93,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         //配置分頁
-        List<Integer> restaurantIds = restaurants.stream().map(restaurant -> restaurant.getRestId()).collect(Collectors.toList());
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 3);
+        List<Integer> restaurantIds = restaurants.stream().map(r -> r.getRestId()).collect(Collectors.toList());
+        Sort sort = Sort.by("restName").descending();
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 3, sort);
         Page<Restaurant> restaurantPage;
 
         if (foodClass != null || session.getAttribute("foodClass") != null) {
@@ -130,18 +125,27 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
-    //
-//    @Override
-//    public List<Restaurant> selectRestaurantByTime(List<Restaurant> restaurants, Integer time) {
-//        return restaurants.stream().filter(restaurant -> time >= restaurant.getRestOpenTime() && time <= restaurant.getRestCloseTime()).collect(Collectors.toList());
-//    }
-//
+
+    @Override
+    public List<Restaurant> selectRestaurantByTime(HttpSession session, List<Restaurant> restaurants, Integer time) {
+
+        if (time != null) {
+            session.setAttribute("time", time);
+        } else {
+            time = (Integer) session.getAttribute("time");
+        }
+        Integer t = time;
+        return restaurants.stream().filter(restaurant ->
+                        t >= restaurant.getRestOpenTime() && t < restaurant.getRestCloseTime())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public List<Restaurant> selectRestaurantByPosition(HttpSession session, List<Restaurant> restaurants, String position) {
 
         String tempPosition = (String) session.getAttribute("position");
         if (position != null) {
-            session.setAttribute("position",position);
+            session.setAttribute("position", position);
             tempPosition = position;
         }
         String temp = tempPosition;

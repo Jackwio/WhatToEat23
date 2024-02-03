@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,20 +21,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RatingsRepository ratingsRepository;
     @Autowired
-    private CartItemRepository cartItemRepository;
-    @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
 
+    @Transactional
     @Override
     public void order(HttpSession session) {
-
         Member currentUser = (Member) session.getAttribute("currentUser");
         List<OrderItem> orderItems = new ArrayList<>();
-        List<CartItem> cartItems = currentUser.getCart().getCartItems();
+        Cart cart = currentUser.getCart();
+        List<CartItem> cartItems = cart.getCartItems();
         Integer total = (Integer) session.getAttribute("total");
         //當前日期
         LocalDateTime tempNowTime = LocalDateTime.now();
@@ -41,17 +39,21 @@ public class OrderServiceImpl implements OrderService {
         String text = tempNowTime.format(formatter);
         LocalDateTime nowTime = LocalDateTime.parse(text, formatter);
         //儲存訂單資料，並找到該order的id
-        Restaurant restaurant = restaurantRepository.findByRestId(cartItems.get(0).getFood().getRestaurant().getRestId());
-        orderRepository.save(new Order(total,cartItems.size(),nowTime,currentUser,restaurant,RestOrderState.UNACCEPT,OrderState.PAID));
-        Order order = orderRepository.findByOrderDateTimeOrderByOrderDateTimeDesc(nowTime);
+        Restaurant restaurant = restaurantRepository.findById(cartItems.get(0).getFood().getRestaurant()
+                .getRestId()).get();
+        Order order = new Order(total, cartItems.size(), nowTime, currentUser, restaurant,
+                RestOrderState.UNACCEPT, OrderState.PAID);
         //儲存訂單項目詳情
         for (CartItem cartItem : cartItems) {
-            orderItems.add(new OrderItem(order,cartItem.getFood(),cartItem.getFoodNum(),cartItem.getFoodNum()*cartItem.getFood().getFoodPrice()));
+            orderItems.add(new OrderItem(order, cartItem.getFood(), cartItem.getFoodNum(),
+                    cartItem.getFoodNum() * cartItem.getFood().getFoodPrice()));
         }
-        orderItemRepository.saveAll(orderItems);
-        //刪掉購物車中全部內容
-        cartItemRepository.deleteAll();
-        cartItems.clear();
+        order.setOrderItems(orderItems);
+        orderRepository.save(order);
+        cart.setItemNum(0);
+        cart.setCartItemTotal(0);
+//        cartItems.clear();
+//        cartRepository.save(cart);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void getCommentOrder(HttpServletRequest request, HttpSession session,Member member) {
+    public void getCommentOrder(HttpServletRequest request, HttpSession session, Member member) {
         List<Long> ratingsOrderId = ratingsRepository.findOrderIdByMember_MemEmail(member.getMemEmail());
         List<Order> commentOrders = orderRepository.findAllByMember_MemEmailAndRestAccepted(member.getMemEmail(), RestOrderState.FINISH);
         commentOrders = commentOrders.stream().filter(order -> !ratingsOrderId.contains(order.getOrderId())).collect(Collectors.toList());

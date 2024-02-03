@@ -5,9 +5,14 @@ import com.my.service.AdminService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AdminController {
@@ -19,25 +24,32 @@ public class AdminController {
     }
 
     @ResponseBody
-    @RequestMapping("/loginAdmin")
-    public String loginAdmin(String adminEmail, String password, HttpSession session) {
+    @GetMapping("/admin")
+    public ResponseEntity<Map<String, String>> loginAdmin(@RequestParam Map<String, String> adminEmailPasswordMap, HttpSession session) {
+        HashMap<String, String> map = new HashMap<>();
         try {
-            adminService.loginAdmin(adminEmail, password, session);
-            return "管理員登入成功";
+            Admin admin = adminService.loginAdmin(adminEmailPasswordMap, session);
+            map.put("message", admin.getAdminEmail() + "管理員登入成功");
         } catch (Exception e) {
-            return "管理員登入失敗";
+            map.put("message", "管理員登入失敗");
+        } finally {
+            return ResponseEntity.ok(map);
         }
     }
 
     @ResponseBody
-    @RequestMapping("/registerAdmin")
-    public String adminRegister(String adminEmail, String password, HttpSession session, HttpServletResponse response) {
-        Admin tempAdmin = adminService.registerAdmin(adminEmail, session, password);
+    @GetMapping("/admin/{adminEmail}/{password}")
+    public ResponseEntity<Map<String, String>> adminRegister(@PathVariable("adminEmail") String adminEmail
+            , HttpSession session, @PathVariable("password") String password) {
+        Admin tempAdmin = adminService.registerAdmin(session, adminEmail, password);
+        HashMap<String, String> map = new HashMap<>();
         //若唯一，則儲存，並回到index頁面
-        if (tempAdmin == null) {
-            return "新增成功";
+        if (tempAdmin != null) {
+            map.put("message", tempAdmin.getAdminEmail() + "管理員添加成功");
+        } else {
+            map.put("message", "管理員添加失敗");
         }
-        return "新增失敗";
+        return ResponseEntity.ok(map);
     }
 
     @RequestMapping("/logoutAdmin")
@@ -46,33 +58,35 @@ public class AdminController {
         return "user/index";
     }
 
-    @RequestMapping("/checkAllMember")
+    @GetMapping("/members")
     public String checkAllMember(HttpSession session) {
         adminService.checkAllMember(session);
         return "admin/memberList";
     }
 
-    @RequestMapping("/checkAllOrder")
+    @GetMapping("/orders")
     public String checkAllOrder(HttpSession session) {
         adminService.checkAllOrder(session);
         return "admin/historyOrder";
     }
 
-    @RequestMapping("/checkAllRestaurant")
+    @GetMapping("/restaurants")
     public String checkAllRestaurant(HttpSession session) {
         adminService.checkAllRestaurant(session);
         return "admin/restaurantList";
     }
 
     @ResponseBody
-    @RequestMapping("/stopRest")
-    public String stopRest(Integer restId) {
+    @GetMapping("/restaurants/{restId}")
+    public ResponseEntity<HashMap<String, String>> stopRest(@PathVariable("restId") Integer restId) {
         Integer affect = adminService.deleteRestaurant(restId);
+        HashMap<String, String> map = new HashMap<>();
         if (affect == 0) {
-            return "解鎖成功";
+            map.put("message", "解鎖成功");
         } else {
-            return "封鎖成功";
+            map.put("message", "封鎖成功");
         }
+        return ResponseEntity.ok(map);
     }
 
     @RequestMapping("/deleteMember")

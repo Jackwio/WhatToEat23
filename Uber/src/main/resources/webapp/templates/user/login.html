@@ -8,7 +8,7 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/static/css/common.css}">
     <link rel="stylesheet" th:href="@{/static/css/login.css}">
-    <script th:src="@{/static/js/login.js}"></script>
+    <script th:src="@{/static/js/user/login.js}"></script>
     <title>使用者登入頁面</title>
     <script
             src="https://code.jquery.com/jquery-3.7.1.js"
@@ -29,13 +29,13 @@
         <label for="memEmail" class="form-label">
             <h5>帳號</h5>
         </label>
-        <input id="memEmail" name="memEmail" type="text" class="form-control emailInput" placeholder="請輸入帳號">
+        <input id="memEmail" name="memEmail" type="text" class="form-control emailInput" value="will666@gmail.com" placeholder="請輸入帳號">
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">
             <h5>密碼</h5>
         </label>
-        <input id="password" name="password" type="text" class="form-control passwordInput" placeholder="請輸入密碼">
+        <input id="password" name="password" type="text" class="form-control passwordInput" value="1234567890" placeholder="請輸入密碼">
     </div>
     <button class="btn btn-success" onclick="login()">登入</button>
 </div>

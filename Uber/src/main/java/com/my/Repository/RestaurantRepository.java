@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
+public interface RestaurantRepository extends BaseRepository<Restaurant, Integer> {
 
     List<Restaurant> findAll();
 

@@ -16,14 +16,17 @@ public class Ratings implements Serializable {
 
     @Id
     @OneToOne
-    @JoinColumn(name="order_id")
+    @JoinColumn(name = "order_id")
     private Order orderId;
     @Id
     @ManyToOne
-    @JoinColumn(name="member")
+    @JoinColumn(name = "member")
     private Member member;
     private Integer ratingsStar;
     private String ratingsContent;
     private Integer isComment;
 
+    public Ratings(Order orderId) {
+        this.orderId = orderId;
+    }
 }

@@ -2,163 +2,204 @@ package com.my.controller;
 
 
 import com.my.pojo.Member;
+import com.my.pojo.Ratings;
 import com.my.pojo.Restaurant;
 import com.my.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
+@RequestMapping("/member")
+@SessionAttributes("password")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
     @ResponseBody
-    @RequestMapping("/login")
-    public String login(String memEmail, String password, HttpSession session,HttpServletRequest request) {
-
-        Member tempMember = memberService.loginMember(memEmail, password, session,request);
-        if (tempMember == null) {
-            return "帳號或密碼錯誤";
+    @PostMapping("/")
+    public ResponseEntity<Map<String, String>> login(HttpSession session, Model model,
+                                                     @RequestParam Map<String, String> emailPasswordMap) {
+        HashMap<String, String> map = new HashMap<>();
+        Member tempMember = null;
+        try {
+            tempMember = memberService.loginMember(session, model, emailPasswordMap);
+            if (tempMember.getMemType() == 1) {
+                map.put("message", "餐廳業者登入成功");
+            } else {
+                map.put("message", "會員登入成功");
+            }
+        } catch (Exception e) {
+            map.put("message", "帳號或密碼錯誤");
         }
-        if (tempMember.getMemType() == 1) {
-            return "餐廳業者登入成功";
-        }
-        return "會員登入成功";
-
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/register")
-    public String register(HttpSession session,String memEmail) {
+    @PostMapping("/email/{memEmail}")
+    public ResponseEntity<Map<String, String>> register(HttpSession session,
+                                                        @PathVariable("memEmail") String memEmail) {
+        HashMap<String, String> map = new HashMap<>();
         Integer i = memberService.registerMember(session, memEmail);
         if (i == 0) {
-            return "email重複";
+            map.put("message", "email重複");
+        } else {
+            map.put("message", "");
         }
-        return "";
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/validCode")
-    public String validCode(HttpSession session,String code){
-        int success = memberService.validCode(session,code);
-        if(success==1){
-            return "驗證成功";
+    @PostMapping("/VerificationCode/{code}")
+    public ResponseEntity<Map<String, String>> validCode(HttpSession session,
+                                                         @PathVariable("code") String code) {
+        HashMap<String, String> map = new HashMap<>();
+        int success = memberService.validCode(session, code);
+        if (success == 1) {
+            map.put("message", "驗證成功");
+        } else {
+            map.put("message", "驗證失敗");
         }
-        return "驗證失敗";
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/validPhoneNum")
-    public String validPhoneNum(HttpSession session,String memPhoneNum){
-        int success = memberService.validPhoneNumber(session,memPhoneNum);
-        if(success==1){
-            return "註冊成功";
+    @PostMapping("/phoneNum/{memPhoneNum}")
+    public ResponseEntity<Map<String, String>> validPhoneNum(HttpSession session,
+                                                             @PathVariable("memPhoneNum") String memPhoneNum) {
+        HashMap<String, String> map = new HashMap<>();
+        int success = memberService.validPhoneNumber(session, memPhoneNum);
+        if (success == 1) {
+            map.put("message", "註冊成功");
+        } else {
+            map.put("message", "註冊失敗");
         }
-        return "註冊失敗";
+        return ResponseEntity.ok(map);
     }
 
-    @RequestMapping("/goToProfile")
-    public String goToProfile(HttpServletRequest request, HttpSession session) {
-        memberService.goToProfile(request, session);
+    @GetMapping("/")
+    public String goToProfile(@SessionAttribute String password) {
         return "user/profile";
     }
 
     @ResponseBody
-    @RequestMapping("/updateName")
-    public String updateName(HttpSession session,String memName){
-        Integer i = memberService.updateName(session,memName);
-        if(i==0){
-            return "更新失敗，名稱重複";
+    @PatchMapping("/name/{memName}")
+    public ResponseEntity<Map<String, String>> updateName(HttpSession session, @PathVariable("memName") String memName) {
+        HashMap<String, String> map = new HashMap<>();
+        try {
+            memberService.updateName(session, memName);
+            map.put("message", "更新成功");
+        } catch (Exception e) {
+            map.put("message", "更新失敗，名稱重複");
         }
-        return "更新成功";
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/updatePhone")
-    public String updatePhone(HttpSession session,String memPhoneNum){
-        Integer i = memberService.updatePhone(session,memPhoneNum);
-        if(i==0){
-            return "更新失敗，名稱重複";
+    @PatchMapping("/phone/{memPhoneNum}")
+    public ResponseEntity<Map<String, String>> updatePhone(HttpSession session,
+                                                           @PathVariable("memPhoneNum") String memPhoneNum) {
+        HashMap<String, String> map = new HashMap<>();
+        try {
+            memberService.updatePhone(session, memPhoneNum);
+            map.put("message", "更新成功");
+        } catch (Exception e) {
+            map.put("message", "更新失敗，名稱重複");
         }
-        return "更新成功";
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/updateEmail")
-    public String updateEmail(HttpSession session,String memEmail){
-        Integer i = memberService.updateEmail(session,memEmail);
-        if(i==0){
-            return "更新失敗，email重複";
+    @PatchMapping("/email/{memEmail}")
+    public ResponseEntity<Map<String, String>> updateEmail(HttpSession session,
+                                                           @SessionAttribute String password,
+                                                           @PathVariable("memEmail") String memEmail) {
+        HashMap<String, String> map = new HashMap<>();
+        try {
+            memberService.updateEmail(session, password, memEmail);
+            map.put("message", "更新成功");
+        } catch (Exception e) {
+            map.put("message", "更新失敗，email重複");
         }
-        return "更新成功";
+        return ResponseEntity.ok(map);
     }
 
     @ResponseBody
-    @RequestMapping("/editMemberInfo")
-    public String editMemberInfo(Member member, String password, HttpSession session, HttpServletRequest request) {
-        Integer affect = memberService.editMemberInfo(member, password, session, request);
-        if (affect == 0) {
-            return "電話號碼重複修改失敗";
-        } else {
-            return "變動成功";
-        }
+    @PatchMapping("/password/{password}")
+    public ResponseEntity<Map<String, String>> updatePassword(HttpSession session, Model model,
+                                                              @PathVariable("password") String password) {
+        HashMap<String, String> map = new HashMap<>();
+        memberService.updatePassword(session, model, password);
+        map.put("message", "更新成功");
+        return ResponseEntity.ok(map);
     }
 
-    @RequestMapping("/getMemberOrder")
+    @ResponseBody
+    @PatchMapping("/photo")
+    public ResponseEntity<Map<String, String>> updatePhoto(HttpSession session,
+                                                           MultipartFile memPhoto) {
+        HashMap<String, String> map = new HashMap<>();
+        memberService.updatePhoto(session, memPhoto);
+        map.put("message", "更新成功");
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/orders")
     public String getMemberOrder(HttpSession session, HttpServletRequest request) {
         memberService.getMemberOrder(session, request);
-        return "forward:/goToLookOrder";
+        return "user/order";
     }
 
-    @RequestMapping("/collectRest")
-    public String collectRest(Integer restId, HttpSession session, String pageNumber) {
+    @PostMapping("/restaurant/{restId}/{pageNumber}")
+    public String collectRest(@PathVariable("restId") Integer restId
+            , HttpSession session, @PathVariable("pageNumber") Integer pageNumber) {
         memberService.collectRest(restId, session);
-        //判斷是在main頁面還是顯示收藏頁面
-        if (pageNumber == null) {
-            return "redirect:/showCollect";
-        }
         return "redirect:/lookRestaurant?pageNumber=" + pageNumber;
     }
 
-    @RequestMapping("/cancelCollectRest")
-    public String cancelCollectRest(Integer restId, HttpSession session, String pageNumber) {
+    @DeleteMapping("/restaurant/{restId}/{pageNumber}")
+    public String cancelCollectRest(@PathVariable("restId") Integer restId
+            , HttpSession session, @PathVariable("pageNumber") Integer pageNumber) {
         memberService.cancelCollectRest(restId, session);
         //判斷是在main頁面還是顯示收藏頁面
-        if (pageNumber == null) {
-            return "redirect:/showCollect";
+        if (pageNumber == 0) {
+            return "redirect:/restaurants";
         }
         return "redirect:/lookRestaurant?pageNumber=" + pageNumber;
     }
 
-    @RequestMapping("/showCollect")
+    @GetMapping("/restaurants")
     public String showCollect(HttpSession session) {
         return "user/collect";
     }
 
-    @RequestMapping("/logOut")
-    public String logOut(HttpSession session) {
-        memberService.deleteAllMessage(session);
+    @GetMapping("/logOut")
+    public String logOut(HttpSession session, SessionStatus sessionStatus) {
+        memberService.deleteAllMessage(session, sessionStatus);
         return "user/index";
     }
 
-    @RequestMapping("/goToComment")
-    public String goToComment(Long orderId,String comment,Integer star,HttpSession session){
-        memberService.goToComment(orderId,comment,star,session);
+    @PutMapping("/comment")
+    public String goToComment(Ratings ratings, HttpSession session) {
+        memberService.goToComment(ratings, session);
         return "redirect:/lookRestaurant";
     }
 
-    @RequestMapping("/cancelComment")
-    public String cancelComment(Long orderId,HttpSession session){
-        memberService.cancelComment(orderId,session);
+    @GetMapping("/comment")
+    public String cancelComment(Ratings ratings, HttpSession session) {
+        memberService.cancelComment(ratings, session);
         return "redirect:/lookRestaurant";
     }
 

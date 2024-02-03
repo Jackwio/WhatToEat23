@@ -22,7 +22,6 @@ public class OrderItem {
 //    注意order為mysql保留字，所以才改為orderId
     @ManyToOne
     @JoinColumn(name = "orderId")
-//    @JsonBackReference
     private Order orderId;
     @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "food")

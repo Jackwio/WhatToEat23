@@ -4,12 +4,11 @@ import com.my.service.FoodService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequestMapping("/food")
 public class FoodController {
 
     @Autowired
@@ -19,8 +18,8 @@ public class FoodController {
     public FoodController() {
     }
 
-    @RequestMapping("/lookFood")
-    public String lookFood(Integer restId, HttpSession session) {
+    @GetMapping("/{restId}")
+    public String lookFood(@PathVariable("restId") Integer restId, HttpSession session) {
         //查看所有菜單，並根據類別進行分類
         foodService.lookFood(restId, session);
         return "restaurant/menu";

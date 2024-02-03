@@ -11,11 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends CrudRepository<Member,String> {
-    Member findByMemEmail(String memEmail);
+public interface MemberRepository extends BaseRepository<Member, String> {
     Member findByMemPhoneNum(String memPhoneNum);
     Member findByMemName(String memName);
-
     List<Member> findAllByMemTypeEquals(Integer memType);
     @Modifying
     @Query("update Member m set m.memEmail=:memEmail where m.memName=:memName")

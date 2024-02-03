@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="tbl_member")
+@Table(name = "tbl_member")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements Serializable {
@@ -23,17 +23,17 @@ public class Member implements Serializable {
     private Integer memType;
     private String memPhoto;
 
-    //mappedBy指定關連到的實體類的屬性
-    @OneToOne(
-            mappedBy = "member",
-            orphanRemoval = true
-    )
+    //使用 mappedBy 指定的属性应该是 Member 实体中表示关联的属性，而不是数据库表中的列名
+    //orphanRemoval = true， If you remove an entity from the association,
+    // and it's no longer referenced by any other entities or collections,
+    // it will be automatically deleted from the database.
+    @OneToOne(mappedBy = "member" , cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private Cart cart;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="tbl_favorite",
+    @JoinTable(name = "tbl_favorite",
             joinColumns = {@JoinColumn(name = "member")},
-            inverseJoinColumns = {@JoinColumn(name="restaurant")}
+            inverseJoinColumns = {@JoinColumn(name = "restaurant")}
     )
     private List<Restaurant> favoriteRestaurants;
 

@@ -1,20 +1,21 @@
 function register() {
     var memEmail = $('#memEmail').val();
-    fetch('/register?memEmail='+memEmail)
+    fetch('/member/email/' + memEmail, {
+        method: 'POST'
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text();
+            return response.json()
         })
         .then(data => {
-            if(data.length!=0){
+            if (data.message.length != 0) {
                 alert(data)
-            }else{
-                window.location.href = 'http://localhost:8080/goValidCode';
+            } else {
+                window.location.href = 'http://localhost:8080/goValidCode'
             }
         })
         .catch(error => {
-            console.error('Error:', error);
         });
 }

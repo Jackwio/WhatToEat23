@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="tbl_cart_item")
+@Table(name = "tbl_cart_item")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class CartItem {
     private Cart cart;
 
     @OneToOne
-    @JoinColumn(name="food")
+    @JoinColumn(name = "food")
     private Food food;
 
     private Integer foodNum;
@@ -42,12 +42,12 @@ public class CartItem {
         this.foodNum = foodNum;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CartItem cartItem = (CartItem) o;
-        return Objects.equals(cart.getCartId(), cartItem.cart.getCartId()) && Objects.equals(food.getFoodId(), cartItem.food.getFoodId());
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CartItem cartItem = (CartItem) o;
+            return cartItem.getCart() == this.cart && cartItem.getFood().equals(this.food);
+        }
 
 }

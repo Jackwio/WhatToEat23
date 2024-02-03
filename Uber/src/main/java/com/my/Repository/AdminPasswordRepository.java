@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AdminPasswordRepository extends CrudRepository<AdminPassword, Admin> {
     @Query("select ap from AdminPassword ap where ap.adminEmail.adminEmail=:adminEmail ")

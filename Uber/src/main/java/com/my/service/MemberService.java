@@ -1,49 +1,58 @@
 package com.my.service;
 
 import com.my.pojo.Member;
+import com.my.pojo.Ratings;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public interface MemberService{
+public interface MemberService {
 
-    Integer registerMember( HttpSession session,String memEmail);
+    Integer registerMember(HttpSession session, String memEmail);
 
-    Member loginMember(String memEmail, String password, HttpSession session, HttpServletRequest request);
+    Member loginMember(HttpSession session, Model model,
+                       Map<String, String> emailPasswordMap);
 
     //對喜歡餐廳編輯
 
     void collectRest(Integer restId, HttpSession session);
+
     void cancelCollectRest(Integer restId, HttpSession session);
-    void editeCollectRest(Integer restId, HttpSession session,Integer change);
 
-    //編輯和查看個人資訊
-    void goToProfile(HttpServletRequest request, HttpSession session);
-
-    Integer editMemberInfo(Member member, String nPassword, HttpSession session,HttpServletRequest request);
+    void editeCollectRest(Integer restId, HttpSession session, Integer change);
 
     //查看個人歷史訂單
     void getMemberOrder(HttpSession session, HttpServletRequest request);
 
     //登出時移除使用者資訊
-    void deleteAllMessage(HttpSession session);
+    void deleteAllMessage(HttpSession session, SessionStatus sessionStatus);
 
-    void comment(Long orderId,String comment,Integer star,HttpSession session);
+    void comment(Ratings ratings, HttpSession session);
 
-    void goToComment(Long orderId,String comment,Integer star,HttpSession session);
+    void goToComment(Ratings ratings, HttpSession session);
 
-    void cancelComment(Long orderId, HttpSession session);
+    void cancelComment(Ratings ratings, HttpSession session);
 
     //再轉為會員或登入時處理訪客資訊
     void processVisitorCartItem(Member member);
-    Integer validCode(HttpSession session,String code);
-    Integer validPhoneNumber(HttpSession session,String memPhoneNum);
 
-    Integer updateEmail(HttpSession session, String memEmail);
+    Integer validCode(HttpSession session, String code);
 
-    Integer updateName(HttpSession session, String memName);
+    Integer validPhoneNumber(HttpSession session, String memPhoneNum);
 
-    Integer updatePhone(HttpSession session, String memPhoneNum);
+    void updateEmail(HttpSession session, String password, String memEmail);
+
+    void updateName(HttpSession session, String memName);
+
+    void updatePhone(HttpSession session, String memPhoneNum);
+
+    void updatePassword(HttpSession session, Model model, String password);
+
+    void updatePhoto(HttpSession session, MultipartFile memPhoto);
 }

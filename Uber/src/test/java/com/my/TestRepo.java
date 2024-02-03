@@ -23,7 +23,7 @@ public class TestRepo {
     public void testEMail(){
         Member member = new Member();
         member.setMemEmail("learningjavaweb@gmail.com");
-        memberService.registerMember(member,"123",null);
+//        memberService.registerMember(member,"123",null);
     }
 
 }

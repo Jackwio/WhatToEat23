@@ -1,7 +1,8 @@
-function updateName() {
-    var memName = $('#nameInput').val();
-    fetch('/member/name/' + memName, {
-        method: "PATCH"
+function phoneNumValid() {
+    var phone = $.trim($('.phoneNumberContainer').text());
+    phone = phone.substr(phone.indexOf(".886")+5)
+    fetch('/member/phoneNum/' + phone, {
+        method: "POST"
     })
         .then(response => {
             if (!response.ok) {
@@ -12,7 +13,7 @@ function updateName() {
         .then(data => {
             alert(data.message)
             if (data.message.indexOf("成功") !== -1) {
-                window.location.href = 'http://localhost:8080/member/';
+                window.location.href = 'http://localhost:8080/'
             }
         })
         .catch(error => {
