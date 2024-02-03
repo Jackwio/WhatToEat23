@@ -1,0 +1,52 @@
+img{
+    width: 570px;
+    height: 130px;
+    border-radius: 10px;
+}
+h3{
+    margin-top: 15px;
+    font-weight: normal;
+    font-size: 20px;
+}
+.r-price{
+    font-size: 14px;
+    font-weight: normal;
+}
+td{
+    margin-right: -20px;
+}
+.fav-rest{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.d1{
+    font-weight: 700;
+    font-size: 36px;
+    margin-left: 37px;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+.c7{
+    height: 24px;
+}
+
+.img-rest{
+    position: relative;
+    display: inline-block;
+}
+
+.heart-icon1 {
+    position: absolute;
+    left: 567px; /* 调整愛心圖標距離左側的距離 */
+    font-size: 20px; /* 调整愛心圖標的大小 */
+}
+.heart-icon2 {
+    position: absolute;
+    left: 1170px; /* 调整愛心圖標距離左側的距離 */
+    font-size: 20px; /* 调整愛心圖標的大小 */
+}
+.heart-icon3 {
+    position: absolute;
+    left: 1773px; /* 调整愛心圖標距離左側的距離 */
+    font-size: 20px; /* 调整愛心圖標的大小 */
+}

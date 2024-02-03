@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@5"></script>
+</head>
+<body>
+<script type="importmap">
+    {
+      "imports": {
+        "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+      }
+    }
+</script>
+
+<script
+        async
+        src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
+        crossorigin="anonymous"
+></script>
+
+<script type="module">
+    import { Client } from '@stomp/stompjs'
+
+    function initializeWebSocket() {
+
+        const client = new Client({
+            brokerURL: 'ws://192.168.56.1:8080/portfolio',
+            onConnect: () => {
+                client.subscribe('/topic/greeting', message =>
+                    console.log(`Received: ${message.body}`)
+                )
+                client.publish({ destination: '/app/greeting', body: 'First Message' })
+            },
+        })
+
+        client.activate()
+    }
+
+    // Initialize WebSocket when the DOM is ready
+    document.addEventListener('DOMContentLoaded', initializeWebSocket)
+</script>
+
+</body>
+
+</html>

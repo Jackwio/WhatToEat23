@@ -1,0 +1,58 @@
+h2{
+    margin-top: 10px;
+    margin-left: 25px;
+    font-weight: 700;
+    font-size: 36px;
+}
+img{
+    width: 300px;
+    height: 120px;
+    padding-left: 16px;
+    margin-top: 5px;
+}
+.res-name{
+    font-size: 24px;
+    font-weight: 700;
+    color: black;
+}
+.how-many{
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 4px;
+}
+.product-info{
+    display: flex;
+}
+.product-info-num-div{
+    border: 1px solid rgb(226, 226, 226);
+    padding: 0px 8px
+}
+.product-info-num{
+    font-size: 14px;
+    font-weight: normal;
+}
+.product-info-name{
+    font-size: 16px;
+    font-weight: normal;
+}
+.spacer{
+    width: 16px;
+}
+.fc{
+    height: 16px;
+}
+.btn-look{
+    text-align: right;
+}
+.look-rest{
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    height: 50px;
+    width: 300px;
+    margin-right: 40px;
+    margin-top: 5px;
+}
+.p-info{
+    margin-left: -550px;
+}
