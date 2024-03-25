@@ -17,7 +17,7 @@ function addRest() {
 // 購物車相關
 function editItem(change, mId, event) {
 
-    fetch('/cart/food/' + mId+'/'+change, {
+    fetch('/cart/food/' + mId + '/' + change, {
         method: "PATCH"
     })
         .then(response => {
@@ -117,7 +117,7 @@ function collectRest(restId, event, pageNumber) {
     if (heartId === 'heart' + restId) {
         if (!bool) {
             $('#' + heartId).addClass("heart-red")
-            fetch('/member/restaurant/' + restId+'/'+pageNumber, {
+            fetch('/member/restaurant/' + restId + '/' + pageNumber, {
                 method: "POST"
             })
                 .then(response => {
@@ -126,13 +126,14 @@ function collectRest(restId, event, pageNumber) {
                     }
                     return response.json();
                 })
-                .then(data => {})
+                .then(data => {
+                })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         } else {
             $('#' + heartId).removeClass("heart-red")
-            fetch('/member/restaurant/' + restId+'/'+pageNumber, {
+            fetch('/member/restaurant/' + restId + '/' + pageNumber, {
                 method: "DELETE"
             })
                 .then(response => {
@@ -141,7 +142,8 @@ function collectRest(restId, event, pageNumber) {
                     }
                     return response.json();
                 })
-                .then(data => {})
+                .then(data => {
+                })
                 .catch(error => {
                     console.error('Error:', error);
                 });
@@ -149,6 +151,7 @@ function collectRest(restId, event, pageNumber) {
     }
 
 }
+
 function order() {
     // 前往付款的相應動作
     fetch('/order/payment', {
@@ -162,7 +165,7 @@ function order() {
         })
         .then(data => {
             alert(data.message);
-            window.location.href='http://localhost:8080/main'
+            window.location.href = 'http://localhost:8080/main'
         })
         .catch(error => {
             console.error('Error:', error);
@@ -170,5 +173,9 @@ function order() {
 }
 
 function goAddFood(restId) {
-    window.location.href = 'http://localhost:8080/food/' + restId;
+    window.location.href = 'http://localhost:8080/restaurant/' + restId + '/';
+}
+
+function startChoose() {
+    window.location.href = 'http://localhost:8080/restaurant/'
 }

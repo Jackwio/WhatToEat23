@@ -214,12 +214,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void updateAverageRating(HttpSession session, Long orderId, Integer star) {
-        Optional<Order> o = orderRepository.findById(orderId);
+    public void updateAverageRating(HttpSession session, Ratings ratings) {
+        Optional<Order> o = orderRepository.findById(ratings.getOrderId().getOrderId());
         Order order = o.get();
         Restaurant restaurant = order.getRestaurant();
-        List<Ratings> ratings = ratingsRepository.findAllByOrderId_Restaurant_RestIdAndRatingsContentIsNotNull(restaurant.getRestId());
-        String formattedResult = String.format("%.1f", (ratings.size() * restaurant.getRestRatings() + star) / (ratings.size() + 1));
+        List<Ratings> ratingsList = ratingsRepository.findAllByOrderId_Restaurant_RestIdAndRatingsContentIsNotNull(restaurant.getRestId());
+        String formattedResult = String.format("%.1f", (ratingsList.size() * restaurant.getRestRatings() + ratings.getRatingsStar()) / (ratingsList.size() + 1));
         restaurant.setRestRatings(Double.parseDouble(formattedResult));
         restaurantRepository.save(restaurant);
     }

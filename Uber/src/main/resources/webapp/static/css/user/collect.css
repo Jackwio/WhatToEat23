@@ -1,8 +1,3 @@
-img{
-    width: 570px;
-    height: 130px;
-    border-radius: 10px;
-}
 h3{
     margin-top: 15px;
     font-weight: normal;
@@ -33,20 +28,23 @@ td{
 .img-rest{
     position: relative;
     display: inline-block;
+    width: 500px;
+    height: 130px;
+    border-radius: 10px;
 }
 
 .heart-icon1 {
     position: absolute;
-    left: 567px; /* 调整愛心圖標距離左側的距離 */
-    font-size: 20px; /* 调整愛心圖標的大小 */
+    left: 497px;
+    font-size: 20px;
 }
 .heart-icon2 {
     position: absolute;
-    left: 1170px; /* 调整愛心圖標距離左側的距離 */
-    font-size: 20px; /* 调整愛心圖標的大小 */
+    left: 1030px;
+    font-size: 20px;
 }
 .heart-icon3 {
     position: absolute;
-    left: 1773px; /* 调整愛心圖標距離左側的距離 */
-    font-size: 20px; /* 调整愛心圖標的大小 */
+    left: 1565px;
+    font-size: 20px;
 }

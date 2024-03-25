@@ -7,6 +7,7 @@ import com.my.pojo.Restaurant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,11 +22,12 @@ public class FoodServiceImpl implements FoodService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Transactional
     @Override
-    public void lookFood(Integer restId, HttpSession session) {
+    public void lookFood(Integer restId,String keyword, HttpSession session) {
 
         //查詢餐點資料
-        List<Food> foods = foodRepository.findAllByRestaurant_RestId(restId);
+        List<Food> foods = foodRepository.findAllByRestaurant_RestIdAndFoodNameContaining(restId,keyword);
         //查詢餐廳資料
         Restaurant restaurant = restaurantRepository.findByRestId(restId);
 
@@ -36,6 +38,11 @@ public class FoodServiceImpl implements FoodService {
         session.setAttribute("types", types);
     }
 
+    @Override
+    public void searchFood(String foodName,Integer restId, HttpSession session) {
+        List<Food> foods = foodRepository.findAllByRestaurant_RestIdAndFoodNameContaining(restId,foodName);
+        session.setAttribute("foods",foods);
+    }
 
     @Override
     public Integer addFood(MultipartFile multipartFile, String foodName, Integer foodPrice, String foodType, HttpSession session) {
@@ -55,7 +62,6 @@ public class FoodServiceImpl implements FoodService {
         if (existFood == null) {
             foodRepository.save(new Food(foodName, foodPrice, uPhotoPath, foodType, currentRestaurant));
             Restaurant restaurant = restaurantRepository.findByRestId(currentRestaurant.getRestId());
-            restaurant.getFoods().size();
             session.setAttribute("currentRestaurant", restaurant);
             return 1;
         }
@@ -87,7 +93,6 @@ public class FoodServiceImpl implements FoodService {
         Food food = new Food(foodId, foodName, foodPrice, uPhotoPath, foodType, currentRestaurant);
         foodRepository.save(food);
         Restaurant restaurant = restaurantRepository.findByRestId(currentRestaurant.getRestId());
-        restaurant.getFoods().size();
         session.setAttribute("currentRestaurant", restaurant);
         return 1;
     }
@@ -97,7 +102,6 @@ public class FoodServiceImpl implements FoodService {
         Restaurant currentRestaurant = (Restaurant) session.getAttribute("currentRestaurant");
         foodRepository.deleteById(foodId);
         Restaurant restaurant = restaurantRepository.findByRestId(currentRestaurant.getRestId());
-        restaurant.getFoods().size();
         session.setAttribute("currentRestaurant", restaurant);
     }
 }

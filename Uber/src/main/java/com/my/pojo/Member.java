@@ -12,6 +12,8 @@ import java.util.List;
 @Table(name = "tbl_member")
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name="Member.All",attributeNodes = {@NamedAttributeNode("favoriteRestaurants"),
+        @NamedAttributeNode("orders"),@NamedAttributeNode("ratingsList")})
 public class Member implements Serializable {
 
     public static final long serialVersionUID = 42L;
@@ -27,7 +29,7 @@ public class Member implements Serializable {
     //orphanRemoval = true， If you remove an entity from the association,
     // and it's no longer referenced by any other entities or collections,
     // it will be automatically deleted from the database.
-    @OneToOne(mappedBy = "member" , cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToOne(mappedBy = "member", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Cart cart;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -36,6 +38,11 @@ public class Member implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "restaurant")}
     )
     private List<Restaurant> favoriteRestaurants;
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST})
+    @OrderBy("orderDateTime desc")
+    private List<Order> orders;
+    @OneToMany(mappedBy = "member",cascade = {CascadeType.PERSIST})
+    private List<Ratings> ratingsList;
 
     @Transient
     public static Member tempUser;

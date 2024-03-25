@@ -1,12 +1,11 @@
 #uberIndex {
-    background-image: url('../images/indexImage/uberIndex.webp');
+    background-image: url('../../images/indexImage/uberIndex.webp');
     background-size: 100%;
 }
 .custom-navbar {
-    background-image: url('../images/indexImage/uberIndex.webp');
+    background-image: url('../../images/indexImage/uberIndex.webp');
     background-size: 100%;
     color: white;
-    padding: 15px;
     display: flex;
     align-items: center;
 }
@@ -106,4 +105,9 @@
 }
 .out:hover{
     background-color: #dcdcdc;
+}
+.name-title{
+    margin-left: -1480px;
+    font-weight: bold;
+    font-size: 30px;
 }

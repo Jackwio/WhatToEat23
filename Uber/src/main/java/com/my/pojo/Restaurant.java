@@ -3,6 +3,7 @@ package com.my.pojo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -11,7 +12,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Restaurant {
+@NamedEntityGraph(name = "Restaurant.foods",attributeNodes = {@NamedAttributeNode("foods")})
+public class Restaurant implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

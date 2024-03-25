@@ -27,9 +27,6 @@ public interface MemberService {
 
     void editeCollectRest(Integer restId, HttpSession session, Integer change);
 
-    //查看個人歷史訂單
-    void getMemberOrder(HttpSession session, HttpServletRequest request);
-
     //登出時移除使用者資訊
     void deleteAllMessage(HttpSession session, SessionStatus sessionStatus);
 
@@ -44,7 +41,7 @@ public interface MemberService {
 
     Integer validCode(HttpSession session, String code);
 
-    Integer validPhoneNumber(HttpSession session, String memPhoneNum);
+    Integer validPhoneNumber(HttpSession session, String memPhoneNum,String memName,String password);
 
     void updateEmail(HttpSession session, String password, String memEmail);
 

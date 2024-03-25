@@ -1,11 +1,19 @@
 package com.my.Config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.Interceptor.IsMemberInterceptor;
+import com.my.pojo.Order;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
@@ -14,6 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("user/index");
         registry.addViewController("/tst").setViewName("tst");
         registry.addViewController("/test2").setViewName("test2");
+        registry.addViewController("/test3").setViewName("test3");
+        //獲取使用者歷史訂單
+        registry.addViewController("/lookOrders").setViewName("user/order");
         //從註冊頁面前往輸入驗證碼頁面
         registry.addViewController("/goValidCode").setViewName("user/registerValid");
         //從輸入驗證碼頁面前往輸入電話
@@ -25,7 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/goUpdatePassword").setViewName("user/goUpdatePassword");
 
         registry.addViewController("/loginUser").setViewName("user/login");
-        registry.addViewController("/main").setViewName("restaurant/main");
+        registry.addViewController("/main").setViewName("rest/main");
         registry.addViewController("/registerUser").setViewName("user/register");
         registry.addViewController("/logOut").setViewName("user/login");
         registry.addViewController("/goToTurnTable").setViewName("restaurant/turntable");
@@ -46,6 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/registerRest").setViewName("restBack/registerRest");
 
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/images/**")

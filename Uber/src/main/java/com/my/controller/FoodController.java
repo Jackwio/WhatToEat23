@@ -18,12 +18,6 @@ public class FoodController {
     public FoodController() {
     }
 
-    @GetMapping("/{restId}")
-    public String lookFood(@PathVariable("restId") Integer restId, HttpSession session) {
-        //查看所有菜單，並根據類別進行分類
-        foodService.lookFood(restId, session);
-        return "restaurant/menu";
-    }
 
     @ResponseBody
     @RequestMapping("/editFood")
@@ -37,8 +31,8 @@ public class FoodController {
     }
 
     @RequestMapping("/deleteFood")
-    public String deleteFood(HttpSession session,Integer foodId) {
-        foodService.deleteFood(session,foodId);
+    public String deleteFood(HttpSession session, Integer foodId) {
+        foodService.deleteFood(session, foodId);
         return "redirect:/goToFoodsOfRest";
     }
 

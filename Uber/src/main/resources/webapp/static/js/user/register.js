@@ -11,7 +11,7 @@ function register() {
         })
         .then(data => {
             if (data.message.length != 0) {
-                alert(data)
+                alert(data.message)
             } else {
                 window.location.href = 'http://localhost:8080/goValidCode'
             }

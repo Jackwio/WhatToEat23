@@ -3,24 +3,20 @@
     background-color: black;
     height: 64px;
 }
-
 .ap {
     padding: 0px 64px;
     /* 設定div裡元素置中 */
     display: flex;
     align-items: center;
 }
-
 .emailInput{
     width: 350px;
     height: 50px;
 }
-
 .whatToEatHref{
     color:white;
     font-size: 25px;
 }
-
 /* 使用者小頭像 */
 .image-preview {
     width: 60px;
@@ -29,29 +25,24 @@
     margin-left: 10px;
     margin-top: 10px;
 }
-
 hr{
     margin-top: 20px;
     color: gray;
 }
-
 .name{
     margin-top: 25px;
     color: black;
     font-size: 16px;
 }
-
 .accountManage{
     font-size: 14px;
     color: green;
 }
-
 .additional-content {
     position: absolute;
     margin-left: 85px;
     display: inline-block;
 }
-
 .additional-content1{
     position: relative;
     display: inline-block;
@@ -59,51 +50,36 @@ hr{
     align-items: center;
     margin-bottom: 20px;
 }
-
-/*.information{*/
-/*    text-decoration: none;*/
-/*    color: black;*/
-/*}*/
-
 .icon{
     color: black;
     font-size: 20px;
     margin-left: 12px;
 }
-
 .iconText{
     margin-left: 20px;
     font-size: 16px;
 }
-
 .logOut{
     color: gray;
     margin-left: 10px;
     font-size: 16px;
 }
-
-
-
 .searchGroup{
     margin-left: -400px;
 }
-
 .keywordInput{
     border-radius: 40px;
     width: 400px;
     height: 50px;
     background-color: #EEEEEE;
 }
-
 .keywordInput:focus, .keywordInput.clicked {
-    border: 1px solid #000; /* 聚焦或点击时的边框颜色为黑色 */
+    border: 1px solid #000;
     background-color: #EEEEEE;
 }
-
 .searchBtn{
     border-radius: 70px;
 }
-
 /* 購物車 */
 .cart-btn{
     border-radius: 50px;
@@ -118,8 +94,8 @@ hr{
     margin-left: 5px;
 }
 .cart-modal-width{
-    width: 450px;
-    margin-left: 1469px;
+    width: 500px;
+    margin-left: 1209px;
 }
 
 .pay-add-btn{
@@ -179,6 +155,10 @@ hr{
     text-align: left;
     padding-left: 0;
 }
+.add-cart-span{
+    display: block;
+    margin-bottom: -8px;
+}
 .add-cart-text{
     font-size: 20px;
     font-weight: 700;
@@ -193,24 +173,20 @@ hr{
     border-radius: 500px;
     font-weight: 500;
     font-size: 14px;
+    margin-top: 30px;
 }
 .search-cart{
     margin-left: -500px;
 }
-
-
 /*個人資訊modal*/
 .iconSize {
     font-size: 25px;
 }
-
 .systemName {
     font-weight: bold;
     font-size: 30px;
-    margin-left: -1900px;
-    /*margin-right: 1000px;*/
+    margin-left: -1700px;
 }
-
 .circle-button {
     height: 50px;
     width: 80px;
@@ -219,47 +195,37 @@ hr{
     color: white;
     font-weight: 400;
     margin-right: 10px;
-    /* 调整右边外边距 */
 }
-
 .circle-button {
     height: 50px;
     width: 80px;
     border-radius: 30px;
 }
-
 .login-register-btn{
     margin-left: -220px;
 }
-
 .login-button {
     color: black;
     background-color: white;
 }
-
 .register-button {
     color: white;
     background-color: black;
 }
-
 .login-button:hover {
     color: black;
     background-color: white;
 }
-
 .register-button:hover {
     background-color: gray;
 }
-
 .model-width {
     width: 300px;
 }
-
 .btn-weight {
     width: 250px;
     height: 50px;
     margin-top: 5px;
-    /* 设置链接底部的间隔 */
 }
 
 .link {
@@ -278,8 +244,20 @@ a{
     text-decoration: none;
     color: black;
 }
-
-/*餐廳收藏愛心*/
 .heart-red{
     color: red;
+}
+.no-item-img{
+    margin: 100px 120px 20px;
+}
+.no-item-div{
+    text-align: center;
+}
+.btn-gray{
+    background-color: #dcdcdc;
+    color: black;
+}
+.btn-gray:hover{
+    background-color: #d3d3d3;
+    color: black;
 }

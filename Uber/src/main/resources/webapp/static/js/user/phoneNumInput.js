@@ -1,7 +1,14 @@
 function phoneNumValid() {
+    var memName = $.trim($('#nameInput').val())
+    var password = $.trim($('#passwordInput').val())
+    var confirmPasswordInput = $.trim($('#confirmPasswordInput').val())
+    if (password !== confirmPasswordInput) {
+        alert("密碼和確認密碼不同")
+        return
+    }
     var phone = $.trim($('.phoneNumberContainer').text());
-    phone = phone.substr(phone.indexOf(".886")+5)
-    fetch('/member/phoneNum/' + phone, {
+    phone = phone.substr(phone.indexOf("+886") + 5)
+    fetch('/member/phoneNumAndElse/' + phone + '/' + memName + '/' + password, {
         method: "POST"
     })
         .then(response => {

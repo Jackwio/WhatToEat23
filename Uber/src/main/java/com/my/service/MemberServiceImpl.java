@@ -49,6 +49,8 @@ public class MemberServiceImpl implements MemberService {
     private CartRepository cartRepository;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private RestaurantService restaurantService;
 
 
     @Override
@@ -82,7 +84,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Integer validPhoneNumber(HttpSession session, String memPhoneNum) {
+    public Integer validPhoneNumber(HttpSession session, String memPhoneNum,String memName
+            ,String password) {
         Member memPhoneNumTemp = memberRepository.findByMemPhoneNum(memPhoneNum);
         if (memPhoneNumTemp != null) {
             return 0;
@@ -90,15 +93,16 @@ public class MemberServiceImpl implements MemberService {
         Member member = (Member) session.getAttribute("member");
         member.setMemType(0);
         member.setMemPhoneNum(memPhoneNum);
-        String memEmail = member.getMemEmail();
-        member.setMemName(memEmail.substring(0, memEmail.indexOf("@")));
+        member.setMemName(memName);
         Cart cart = new Cart(member, 0, 0);
         member.setCart(cart);
         memberRepository.save(member);
+        memberPasswordRepository.save(new MemPassword(member.getMemEmail(),password));
         session.removeAttribute("member");
         return 1;
     }
 
+    @Transactional
     @Override
     public Member loginMember(HttpSession session, Model model,
                               Map<String, String> emailPasswordMap) {
@@ -126,35 +130,32 @@ public class MemberServiceImpl implements MemberService {
                 for (Order order : orders) {
                     orderTotalRevenues += order.getOrderTotalPrice();
                 }
-                restaurant.getFoods().size();
                 session.setAttribute("orderAllNumbers", orders.size());
                 session.setAttribute("orderAllRevenues", orderTotalRevenues);
                 session.setAttribute("currentUser", tempMember);
                 session.setAttribute("currentRestaurant", restaurant);
                 return tempMember;
             }
-            //在涉及到懒加载的情况下，问题可能出现在事务外部访问懒加载属性的时候。这是因为 Hibernate 的默认行为是在事务结束时关闭 Session
-            Cart cart = tempMember.getCart();
-            cart.getCartItems().size();
             if (Cart.tempCart != null) {
                 processVisitorCartItem(tempMember);
             }
-            //強制加載lazy屬性
-            tempMember.getFavoriteRestaurants().size();
             List<Integer> favoriteRestaurantIds = tempMember.getFavoriteRestaurants().stream().map(restaurant -> restaurant.getRestId()).collect(Collectors.toList());
             session.setAttribute("currentUser", tempMember);
             session.setAttribute("favoriteRestaurantIds", favoriteRestaurantIds);
             return tempMember;
         }
+
         //密碼不正確
         return null;
     }
 
+    @Transactional
     @Override
     public void processVisitorCartItem(Member member) {
         Cart cart = member.getCart();
         List<CartItem> cartItems = cart.getCartItems();
         Cart tempCart = Cart.tempCart;
+        int total;
         for (CartItem item : tempCart.getCartItems()) {
             Food food = item.getFood();
             CartItem cartItem = cartItems.stream()
@@ -171,7 +172,7 @@ public class MemberServiceImpl implements MemberService {
                             item2.setFoodNum(item2.getFoodNum() + item.getFoodNum());
                         });
             }
-            cart.setItemNum(cart.getItemNum() + food.getFoodPrice() * item.getFoodNum());
+            cart.setCartItemTotal(cart.getCartItemTotal() + food.getFoodPrice() * item.getFoodNum());
         }
         Cart.tempCart = null;
         cart.setItemNum(cartItems.size());
@@ -219,7 +220,7 @@ public class MemberServiceImpl implements MemberService {
         }
         currentUser.setMemEmail(memEmail);
         memberRepository.updateMemEmailByMemName(memEmail, currentUser.getMemName());
-        memberPasswordRepository.updateMemEmailByMemName(memEmail, password);
+//        memberPasswordRepository.updateMemEmailByMemName(memEmail, password);
     }
 
     @Override
@@ -265,16 +266,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void getMemberOrder(HttpSession session, HttpServletRequest request) {
-        Member currentUser = (Member) session.getAttribute("currentUser");
-        List<Order> orders = orderRepository.findAllByMember_MemEmail(currentUser.getMemEmail());
-        request.setAttribute("orders", orders);
-    }
-
-    @Override
     public void goToComment(Ratings ratings, HttpSession session) {
         comment(ratings, session);
-//        restaurantService.updateAverageRating(session, orderId, star);
+        restaurantService.updateAverageRating(session, ratings);
     }
 
     @Override

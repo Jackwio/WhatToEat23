@@ -12,11 +12,9 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends BaseRepository<Order,Long> {
-    Order findByOrderDateTimeOrderByOrderDateTimeDesc(LocalDateTime localDateTime);
     List<Order> findAllByMember_MemEmail(String memEmail);
     List<Order> findAllByRestaurant_RestId(Integer restId);
     List<Order> findAllByRestaurant_RestIdAndRestAccepted(Integer restId, RestOrderState restOrderState);
     List<Order> findAllByMember_MemEmailAndRestAccepted(String memEmail,RestOrderState restOrderState);
 
-    List<Order> findAllByOrderStateAndRestaurant_RestId(OrderState orderState,Integer restId);
 }

@@ -4,7 +4,7 @@ h2{
     font-weight: 700;
     font-size: 36px;
 }
-img{
+.rest-img{
     width: 300px;
     height: 120px;
     padding-left: 16px;
@@ -54,5 +54,5 @@ img{
     margin-top: 5px;
 }
 .p-info{
-    margin-left: -550px;
+    margin-left: -450px;
 }

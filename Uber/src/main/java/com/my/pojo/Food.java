@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Streamable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Table(name = "tbl_food")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Food{
+public class Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.my.service;
 
+import com.my.pojo.Ratings;
 import com.my.pojo.Restaurant;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
@@ -19,5 +20,5 @@ public interface RestaurantService{
     void useTurntable(HttpSession session);
     Integer getTurnTableResult(Integer target, HttpSession session);
 
-    void updateAverageRating(HttpSession session,Long orderId,Integer ratingStar);
+    void updateAverageRating(HttpSession session, Ratings ratings);
 }

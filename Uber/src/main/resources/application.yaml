@@ -3,6 +3,14 @@ server:
     register-default-servlet: true
 
 spring:
+  artemis:
+    mode: embedded
+    broker-url: "tcp://localhost:61616"
+    user: "admin"
+    password: "admin"
+  devtools:
+    restart:
+      exclude: "webapp/**"
   mvc:
     servlet:
       load-on-startup: 1
@@ -38,9 +46,4 @@ spring:
           starttls:
             enable: true
             required: true
-
-
-
-
-
 

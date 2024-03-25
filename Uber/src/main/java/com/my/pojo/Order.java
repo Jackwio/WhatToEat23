@@ -5,6 +5,9 @@ import com.my.Enum.OrderState;
 import com.my.Enum.RestOrderState;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Proxy;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Order implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +35,7 @@ public class Order {
     private RestOrderState restAccepted;
     @Enumerated(EnumType.ORDINAL)
     private OrderState orderState;
-    @OneToMany(mappedBy = "orderId",cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToMany(mappedBy = "orderId",cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
     private List<OrderItem> orderItems;
 
     public Order(RestOrderState restAccepted) {
@@ -41,6 +44,25 @@ public class Order {
 
     public Order(OrderState orderState) {
         this.orderState = orderState;
+    }
+
+    public Order(LocalDateTime orderDateTime) {
+        this.orderDateTime = orderDateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", orderTotalPrice=" + orderTotalPrice +
+                ", orderQuality=" + orderQuality +
+                ", orderDateTime=" + orderDateTime +
+                ", member=" + member +
+                ", restaurant=" + restaurant +
+                ", restAccepted=" + restAccepted +
+                ", orderState=" + orderState +
+                ", orderItems=" + orderItems +
+                '}';
     }
 
     public Order(Integer orderTotalPrice, Integer orderQuality, LocalDateTime orderDateTime, Member member, Restaurant restaurant, RestOrderState restAccepted, OrderState orderState) {

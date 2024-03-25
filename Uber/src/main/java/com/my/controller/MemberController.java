@@ -76,11 +76,13 @@ public class MemberController {
     }
 
     @ResponseBody
-    @PostMapping("/phoneNum/{memPhoneNum}")
+    @PostMapping("/phoneNumAndElse/{memPhoneNum}/{memName}/{password}")
     public ResponseEntity<Map<String, String>> validPhoneNum(HttpSession session,
-                                                             @PathVariable("memPhoneNum") String memPhoneNum) {
+                                                             @PathVariable("memPhoneNum") String memPhoneNum,
+                                                             @PathVariable("memName") String memName,
+                                                             @PathVariable("password") String password) {
         HashMap<String, String> map = new HashMap<>();
-        int success = memberService.validPhoneNumber(session, memPhoneNum);
+        int success = memberService.validPhoneNumber(session, memPhoneNum,memName,password);
         if (success == 1) {
             map.put("message", "註冊成功");
         } else {
@@ -156,12 +158,6 @@ public class MemberController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/orders")
-    public String getMemberOrder(HttpSession session, HttpServletRequest request) {
-        memberService.getMemberOrder(session, request);
-        return "user/order";
-    }
-
     @PostMapping("/restaurant/{restId}/{pageNumber}")
     public String collectRest(@PathVariable("restId") Integer restId
             , HttpSession session, @PathVariable("pageNumber") Integer pageNumber) {
@@ -191,16 +187,19 @@ public class MemberController {
         return "user/index";
     }
 
+    @ResponseBody
     @PutMapping("/comment")
-    public String goToComment(Ratings ratings, HttpSession session) {
+    public ResponseEntity<Map<String, String>> goToComment(Ratings ratings, HttpSession session) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("url", "/restaurant/");
         memberService.goToComment(ratings, session);
-        return "redirect:/lookRestaurant";
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/comment")
     public String cancelComment(Ratings ratings, HttpSession session) {
         memberService.cancelComment(ratings, session);
-        return "redirect:/lookRestaurant";
+        return "redirect:/restaurant/";
     }
 
 

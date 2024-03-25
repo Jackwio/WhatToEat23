@@ -1,0 +1,47 @@
+.cPhoneInput{
+    margin-top: 150px;
+    margin-left: 750px;
+}
+
+.nextStepBtn{
+    margin-top: 60px;
+    margin-left: 210px;
+    border-radius: 50px;
+    width: 100px;
+    height: 50px;
+}
+.phoneNumberContainer {
+    padding: 5px;
+    display: inline-block;
+    width: 300px; /*設置輸入框長度 */
+    height: 50px;
+    border-radius: 0.5rem;
+    margin-left: 3px;
+    line-height: 37px;
+    background-color: #f5f5f5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.phoneNumberInput {
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.prefix {
+    color: black;
+    user-select: none;
+}
+#nameInput,#passwordInput,#confirmPasswordInput{
+    margin-top: 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 300px;
+    height: 50px;
+    color: black;
+    margin-bottom: 10px;
+}
+

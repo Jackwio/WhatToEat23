@@ -1,6 +1,5 @@
 package com.my.service;
 
-import com.my.Repository.CartItemRepository;
 import com.my.Repository.CartRepository;
 import com.my.Repository.FoodRepository;
 import com.my.Repository.MemberRepository;

@@ -3,6 +3,7 @@ package com.my.pojo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class CartItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +43,12 @@ public class CartItem {
         this.foodNum = foodNum;
     }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            CartItem cartItem = (CartItem) o;
-            return cartItem.getCart() == this.cart && cartItem.getFood().equals(this.food);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartItem cartItem = (CartItem) o;
+        return cartItem.getFood().equals(this.food);
+    }
 
 }

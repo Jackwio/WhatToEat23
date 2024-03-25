@@ -29,7 +29,7 @@ public class OrderController {
     @GetMapping("/")
     public String goToPay(HttpSession session, HttpServletRequest request) {
         orderService.goToPay(session, request);
-        return "order/cart";
+        return "order/pay";
     }
 
     //下單完成

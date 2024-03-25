@@ -22,7 +22,7 @@ public class CartController {
                           HttpSession session) {
         cartItemService.addCartItem(session, foodId);
         //跳回餐廳菜單畫面
-        return "restaurant/menu::cartItemBlock";
+        return "rest/menu::cartItemBlock";
     }
 
     //    編輯購物車數量
@@ -30,13 +30,13 @@ public class CartController {
     public String editCart(@PathVariable("foodId") Integer foodId,
                            @PathVariable("change") Integer change, HttpSession session) {
         cartItemService.editCartItem(session, foodId, change);
-        return "restaurant/main::cartItemBlock";
+        return "rest/main::cartItemBlock";
     }
 
     //    更新購物車上數量
     @PatchMapping("/numbers")
     public String changeCartNumber(HttpSession session) {
-        return "restaurant/main::cartNumber";
+        return "rest/main::cartNumber";
     }
 
     //    刪除購物車東西
@@ -44,6 +44,6 @@ public class CartController {
     public String deleteCart(HttpSession session, @PathVariable("foodId") Integer foodId) {
         cartItemService.deleteCartItem(session, foodId);
         //跳回購物車頁面(右彈窗)
-        return "restaurant/main::cartItemBlock";
+        return "rest/main::cartItemBlock";
     }
 }

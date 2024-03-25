@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/static/css/common.css}">
     <script th:src="@{/static/js/common.js}"></script>
+    <script th:src="@{/static/js/restaurant/menu.js}"></script>
     <style>
 
         .imgSize {
@@ -29,7 +30,7 @@
 <!--上面navaBar-->
 <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid mainContent">
-        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#myInfoModal">
+        <button id="infoBtn" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#myInfoModal">
             <i class="bi bi-list iconSize"></i>
         </button>
         <!--        設定個人資訊彈窗-->
@@ -39,17 +40,17 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="additional-content1" th:if="${session.currentUser!=null}">
-                            <img th:src="@{${session.currentUser.memPhoto}}" class="image-preview" />
+                            <img th:src="@{${session.currentUser.memPhoto}}" class="image-preview"/>
                             <div class="additional-content">
-                                <span class="name" th:text="${session.currentUser.memName}"></span><br />
-                                <a th:href="@{/member/}" class="accountManage">管理帳戶</a>
+                                <span class="name" th:text="${session.currentUser.memName}"></span><br/>
+                                <a id="manageAccount" th:href="@{/member/}" class="accountManage">管理帳戶</a>
                             </div>
                         </div>
                         <div th:if="${session.currentUser!=null}">
                             <a th:href="@{/member/orders}" class="information">
                                 <i class="bi bi-file-earmark-check-fill icon"></i>
                                 <span class="iconText">訂單</span>
-                            </a><br />
+                            </a><br/>
                             <a th:href="@{/member/restaurants}" class="information">
                                 <i class="bi bi-heart-fill icon"></i>
                                 <span class="iconText">最愛餐廳</span>
@@ -57,12 +58,13 @@
                         </div>
                         <div th:if="${session.currentUser!=null}">
                             <button class="btn btn-dark btn-weight" style="display: none;">註冊</button>
-                            <button class="btn btn-secondary btn-weight" style="display: none;">登入</button><br />
+                            <button class="btn btn-secondary btn-weight" style="display: none;">登入</button>
+                            <br/>
                         </div>
                         <a th:href="@{/member/logOut}"
                            th:if="${session.currentUser!=null}" class="information logOut">登出</a>
-                        <hr />
-                        <a href="#" class="link">建立企業帳戶</a><br />
+                        <hr/>
+                        <a href="#" class="link">建立企業帳戶</a><br/>
                         <a href="#" class="link2">新增您的餐廳</a>
                     </div>
                 </div>
@@ -74,11 +76,10 @@
 
         <!-- 搜尋框 -->
         <div class="search-cart d-flex">
-            <form class="d-flex searchGroup" role="search" method="get" th:action="@{/restaurant/}">
-                <input type="hidden" name="action" value="search">
+            <form class="d-flex searchGroup" role="search">
                 <input class="form-control me-3 keywordInput" type="search" placeholder="Search" aria-label="Search"
                        name="keyword">
-                <button class="btn btn-success searchBtn" type="submit">Search</button>
+                <button class="btn btn-success searchBtn" th:onclick="|searchFood(${session.restaurant.restId})|">Search</button>
             </form>
 
             <!-- 購物車 -->
@@ -86,7 +87,7 @@
                 <i th:fragment="cartNumber" class="bi bi-cart cartIcon"></i>
                 <span th:fragment="cartNumber" class="num"
                       th:text="${session.currentUser != null ? session.currentUser.cart.cartItems.size(): session.tempCart.cartItems.size()}">
-            </span>
+                    </span>
                 <span th:fragment="cartNumber" class="product">項商品</span>
             </button>
         </div>
@@ -99,12 +100,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body cart-body" th:fragment="cartItemBlock">
-                        <div
-                                th:if="${session.currentUser != null ? session.currentUser.cart.cartItems.size() == 0 : session.tempCart.cartItems.size() == 0}">
-                            <img src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/a023a017672c2488.svg"/>
-                            <span class="add-cart-text">加入選購商品即可開啟購物車</span>
-                            <span class="add-cart-text1">選購餐廳或商店中的商品後，您的購物車即會顯示在此。</span>
-                            <button type="button" class="btn btn-dark start-choose" data-bs-dismiss="modal">開始選購
+                        <div class="no-item-div"
+                             th:if="${session.currentUser != null ? session.currentUser.cart.cartItems.size() == 0 : session.tempCart.cartItems.size() == 0}">
+                            <img class="no-item-img" src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/a023a017672c2488.svg"/>
+                            <span class="add-cart-span add-cart-text">加入選購商品即可開啟購物車</span><br>
+                            <span class="add-cart-span add-cart-text1">選購餐廳或商店中的商品後，您的購物車即會顯示在此。</span>
+                            <button type="button" onclick="startChoose()" class="btn btn-dark start-choose" data-bs-dismiss="modal">開始選購
                             </button>
                         </div>
                         <div
@@ -113,13 +114,13 @@
                             <span>外送地點:</span>
                             <span>台北市</span>
                             <p class="buy-num">
-                                <span id="pNUm"
-                                      th:text="${session.currentUser != null ? session.currentUser.cart.itemNum: session.tempCart.cartItems.size()}">1</span>
+                                    <span id="pNUm"
+                                          th:text="${session.currentUser != null ? session.currentUser.cart.itemNum: session.tempCart.cartItems.size()}">1</span>
                                 <span>項商品</span>
                                 <span class="buy-total">小計:$</span>
                                 <span class="buy-money"
                                       th:text="${session.currentUser != null ? session.currentUser.cart.cartItemTotal: session.tempCart.cartItemTotal}">
-                                </span>
+                                    </span>
                             </p>
                             <hr/>
                         </div>
@@ -166,19 +167,21 @@
                                 <span class="buy-total2">小計</span>
                                 <span class="buy-money2"
                                       th:text="${session.currentUser != null ? session.currentUser.cart.cartItemTotal: session.tempCart.cartItemTotal}">
-                                </span>
+                                    </span>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer" th:fragment="cartItemBlock">
-                        <button type="button" class="btn btn-dark pay-add-btn"
+                    <div class="modal-footer" th:fragment="cartItemBlock"
+                         th:if="${session.currentUser != null ? session.currentUser.cart.cartItems.size() != 0 : session.tempCart.cartItems.size() != 0}">
+                        <button id="payBtn" type="button" class="btn btn-dark pay-add-btn"
                                 th:data-cartItem="${session.currentUser == null ? session.tempCart.cartItems.size() : session.currentUser.cart.cartItems.size()}"
                                 onclick="goToPay(this)">前往結帳
                         </button>
                         <br/>
                         <button type="button" class="btn-gray pay-add-btn" th:onclick="|goAddFood(${session.currentUser == null ?
-                                (session.tempCart.cartItems.size() != 0 ? session.tempCart.cartItems[0].food.restaurant.restId : -1) :
-                                (session.currentUser.cart.cartItems.size() != 0 ? session.currentUser.cart.cartItems[0].food.restaurant.restId : -1)})|">
+                                    session.tempCart.cartItems[0].food.restaurant.restId:
+                                    session.currentUser.cart.cartItems[0].food.restaurant.restId })|"
+                                data-bs-dismiss="modal">
                             <span>新增商品</span>
                         </button>
                     </div>
@@ -225,7 +228,7 @@
             </li>
             <br/>
             <li class="nav-item" th:each="type : ${session.types}">
-                <span><a th:href="'#'+${type}" th:text="${type}" th:data-type="${type}"
+                <span><a th:id="${'type'+type}" th:href="'#'+${type}" th:text="${type}" th:data-type="${type}"
                          th:onclick="|scrollToSection(this.getAttribute('data-type'))|">類別1</a></span>
             </li>
         </ul>
@@ -240,7 +243,7 @@
                 <div class="card-body row">
                     <h5 class="card-title" th:text="${food.foodName}">商品1</h5><br/>
                     <h5 class="col-md-6" th:text="${food.foodPrice}">價錢1</h5>
-                    <button type="button" style="margin-left: 10px" class="btn btn-danger col-md-6"
+                    <button th:id="'food'+${food.foodId}" type="button" style="margin-left: 10px" class="btn btn-danger col-md-6"
                             data-bs-toggle="modal"
                             th:data-cartItem-rest="${session.currentUser==null?(session.tempCart.cartItems.size()!=0?session.tempCart.cartItems[0].food.restaurant.restId:0):(session.currentUser.cart.cartItems.size()!=0?session.currentUser.cart.cartItems[0].food.restaurant.restId:0)}"
                             th:data-currentRest="${session.restaurant.restId}"
@@ -260,7 +263,7 @@
                                     已加入購物車!!!!
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認
+                                    <button id="confirmAdd" type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認
                                     </button>
                                 </div>
                             </div>

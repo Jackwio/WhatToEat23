@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class Cart {
 
     //orphanRemoval = true
     //如果从 cartItems 集合中移除了某个 CartItem，并且该 CartItem 没有被其他地方引用，那么在保存父实体 Cart 时，JPA 会检测到这个孤儿实体，并将其从数据库中删除。
-    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CartItem> cartItems;
 
     @Transient  //表示該實體屬性是不需要再資料庫保存的
